@@ -55,6 +55,11 @@ class StudentListFragment : Fragment() {
             binding.refreshLayout.isRefreshing = false
         }
 
+        binding.btnFilm.setOnClickListener{
+            val action = StudentListFragmentDirections.actionFilmList()
+            Navigation.findNavController(binding.root).navigate(action)
+        }
+
     }
 
 

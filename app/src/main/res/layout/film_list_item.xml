@@ -23,8 +23,20 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <Button
+                android:id="@+id/btnDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="Detail"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageFilm"
+                app:layout_constraintTop_toBottomOf="@+id/txtYear" />
+
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/imageFilm"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -33,36 +45,37 @@
                 tools:srcCompat="@tools:sample/avatars" />
 
             <TextView
-                android:id="@+id/txtID"
+                android:id="@+id/txtTitle"
+                style="@style/TextAppearance.MaterialComponents.Headline4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:text="ID"
-                app:layout_constraintStart_toEndOf="@+id/imageView"
+                android:text="Title"
+                app:layout_constraintStart_toEndOf="@+id/imageFilm"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/txtName"
+                android:id="@+id/txtGenre"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="16dp"
-                android:text="Student Name"
-                app:layout_constraintStart_toEndOf="@+id/imageView"
-                app:layout_constraintTop_toBottomOf="@+id/txtID" />
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="Genre"
+                app:layout_constraintStart_toEndOf="@+id/imageFilm"
+                app:layout_constraintTop_toBottomOf="@+id/txtTitle" />
 
-            <Button
-                android:id="@+id/btnDetail"
+            <TextView
+                android:id="@+id/txtYear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:text="Detail"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageView"
-                app:layout_constraintTop_toBottomOf="@+id/txtName" />
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="Year"
+                app:layout_constraintStart_toEndOf="@+id/imageFilm"
+                app:layout_constraintTop_toBottomOf="@+id/txtGenre" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
