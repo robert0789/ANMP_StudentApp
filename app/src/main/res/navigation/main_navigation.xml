@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/filmListFragment">
+    app:startDestination="@id/studentListFragment">
 
     <fragment
         android:id="@+id/studentListFragment"
@@ -21,7 +21,11 @@
         android:id="@+id/studentDetailFragment"
         android:name="com.robert.studentapp.view.StudentDetailFragment"
         android:label="fragment_student_detail"
-        tools:layout="@layout/fragment_student_detail" />
+        tools:layout="@layout/fragment_student_detail" >
+        <argument
+            android:name="studentID"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/filmListFragment"
         android:name="com.robert.studentapp.view.FilmListFragment"

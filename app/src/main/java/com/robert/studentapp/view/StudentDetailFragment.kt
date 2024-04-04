@@ -1,6 +1,7 @@
 package com.robert.studentapp.view
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,14 @@ import com.robert.studentapp.R
 import com.robert.studentapp.databinding.FragmentStudentDetailBinding
 import com.robert.studentapp.viewmodel.DetailViewModel
 import com.robert.studentapp.viewmodel.ListViewModel
+import com.squareup.picasso.Callback
+import com.squareup.picasso.Picasso
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.schedulers.Schedulers
+import java.lang.Exception
+import java.util.concurrent.TimeUnit
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -48,26 +57,70 @@ class StudentDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val studentId = arguments?.getString("studentID")
         viewModel = ViewModelProvider(this).get(DetailViewModel::class.java)
-        viewModel.fetch()
+        if(studentId != null){
+            viewModel.fetch(studentId)
+            Log.d("student_id", studentId.toString())
+            observeViewModel()
+        }
 
 
 
-        observeViewModel()
+
 
     }
 
     fun observeViewModel(){
+
+
         viewModel.studentLD.observe(viewLifecycleOwner, Observer {
-            val name = it.id.toString()
-            binding.txtID.isEnabled = true
+            var student = it
 
             binding.txtID.setText(it.id)
             binding.txtName.setText(it.name)
             binding.txtBrd.setText(it.dob)
+            binding.txtPhone.setText(it.phone)
+
+            val picasso = Picasso.Builder(requireContext())
+            picasso.listener{
+                    picasso,uri, exception->
+                exception.printStackTrace()
+            }
+
+            //callback untuk ngetahui image berhasil diload
+            picasso.build().load(it.photoUrl).into(binding.imageView2, object:
+                Callback {
+                override fun onSuccess() {
+
+                }
+
+                override fun onError(e: Exception?) {
+                    Log.e("picasso error", e.toString())
+                }
+            })
 
 
+            binding.btnUpdate?.setOnClickListener {
+                Observable.timer(1, TimeUnit.SECONDS)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe {
+                        Log.d("Messages", "five seconds")
+                        MainActivity.showNotification(student.name.toString(),
+                            "A new notification created",
+                            R.drawable.baseline_person_24)
+                    }
+                val name = it.id.toString()
+                binding.txtID.isEnabled = true
 
+                Log.d("print_student", it.toString())
+                binding.txtID.setText(student.id.toString())
+                binding.txtName.setText(student.name)
+                binding.txtBrd.setText(student.dob)
+
+
+            }
         })
 
 
