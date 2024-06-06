@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.robert.studentapp.R
 import com.robert.studentapp.databinding.FragmentStudentDetailBinding
+import com.robert.studentapp.model.Student
 import com.robert.studentapp.viewmodel.DetailViewModel
 import com.robert.studentapp.viewmodel.ListViewModel
 import com.squareup.picasso.Callback
@@ -28,7 +29,7 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 
-class StudentDetailFragment : Fragment() {
+class StudentDetailFragment : Fragment(), ButtonUpdateClickListener {
 
     //jangan sampai salah tulis binding, nanti salah inflate layout
     private lateinit var binding: FragmentStudentDetailBinding
@@ -57,6 +58,7 @@ class StudentDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.student  = Student("","","","","https://cdn1-production-images-kly.akamaized.net/KjXPJSJZDztKc0jg1oeJkT7k3Rk=/800x450/smart/filters:quality(75):strip_icc():format(webp)/kly-media-production/medias/67198/original/telur-130421b.jpg")
         val studentId = arguments?.getString("studentID")
         viewModel = ViewModelProvider(this).get(DetailViewModel::class.java)
         if(studentId != null){
@@ -75,74 +77,76 @@ class StudentDetailFragment : Fragment() {
 
 
         viewModel.studentLD.observe(viewLifecycleOwner, Observer {
-            var student = it
+//            var student = it
+            binding.student = it
+            binding.listener = this
 
-            binding.txtID.setText(it.id)
-            binding.txtName.setText(it.name)
-            binding.txtBrd.setText(it.dob)
-            binding.txtPhone.setText(it.phone)
-
-            val picasso = Picasso.Builder(requireContext())
-            picasso.listener{
-                    picasso,uri, exception->
-                exception.printStackTrace()
-            }
-
-            //callback untuk ngetahui image berhasil diload
-            picasso.build().load(it.photoUrl).into(binding.imageView2, object:
-                Callback {
-                override fun onSuccess() {
-
-                }
-
-                override fun onError(e: Exception?) {
-                    Log.e("picasso error", e.toString())
-                }
-            })
-
-
-            binding.btnUpdate?.setOnClickListener {
-                Observable.timer(1, TimeUnit.SECONDS)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe {
-                        Log.d("Messages", "five seconds")
-                        MainActivity.showNotification(student.name.toString(),
-                            "A new notification created",
-                            R.drawable.baseline_person_24)
-                    }
-                val name = it.id.toString()
-                binding.txtID.isEnabled = true
-
-                Log.d("print_student", it.toString())
-                binding.txtID.setText(student.id.toString())
-                binding.txtName.setText(student.name)
-                binding.txtBrd.setText(student.dob)
+//            binding.txtID.setText(it.id)
+//            binding.txtName.setText(it.name)
+//            binding.txtBrd.setText(it.dob)
+//            binding.txtPhone.setText(it.phone)
+//
+//            val picasso = Picasso.Builder(requireContext())
+//            picasso.listener{
+//                    picasso,uri, exception->
+//                exception.printStackTrace()
+//            }
+//
+//            //callback untuk ngetahui image berhasil diload
+//            picasso.build().load(it.photoUrl).into(binding.imageView2, object:
+//                Callback {
+//                override fun onSuccess() {
+//
+//                }
+//
+//                override fun onError(e: Exception?) {
+//                    Log.e("picasso error", e.toString())
+//                }
+//            })
 
 
-            }
+//            binding.btnUpdate?.setOnClickListener {
+//                Observable.timer(1, TimeUnit.SECONDS)
+//                    .subscribeOn(Schedulers.io())
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribe {
+//                        Log.d("Messages", "five seconds")
+//                        MainActivity.showNotification(student.name.toString(),
+//                            "A new notification created",
+//                            R.drawable.baseline_person_24)
+//                    }
+//                val name = it.id.toString()
+//                binding.txtID.isEnabled = true
+//
+//                Log.d("print_student", it.toString())
+//                binding.txtID.setText(student.id.toString())
+//                binding.txtName.setText(student.name)
+//                binding.txtBrd.setText(student.dob)
+//
+//
+//            }
         })
 
 
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment StudentDetailFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            StudentDetailFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onButtonUpdateClickListener(v: View) {
+        Observable.timer(1, TimeUnit.SECONDS)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe {
+                        Log.d("Messages", "five seconds")
+                        MainActivity.showNotification(binding.student?.name.toString(),
+                            "A new notification created",
+                            R.drawable.baseline_person_24)
+                    }
+//        val name = binding.student.id.toString()
+////        binding.txtID.isEnabled = true
+//
+//        Log.d("print_student", binding.student.toString())
+//        binding.txtID.setText(student.id.toString())
+//        binding.txtName.setText(student.name)
+//        binding.txtBrd.setText(student.dob)
+//
     }
 }

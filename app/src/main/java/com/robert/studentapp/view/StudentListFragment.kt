@@ -31,6 +31,7 @@ class StudentListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentStudentListBinding.inflate(inflater, container, false)
+
         // Inflate the layout for this fragment
         return binding.root
     }
@@ -43,7 +44,6 @@ class StudentListFragment : Fragment() {
 
         binding.recView.layoutManager = LinearLayoutManager(context)
         binding.recView.adapter = studentListAdapter
-
 
         observeViewModel()
 
@@ -59,7 +59,6 @@ class StudentListFragment : Fragment() {
             val action = StudentListFragmentDirections.actionFilmList()
             Navigation.findNavController(binding.root).navigate(action)
         }
-
     }
 
 
@@ -93,4 +92,6 @@ class StudentListFragment : Fragment() {
             }
         })
     }
+
+
 }
